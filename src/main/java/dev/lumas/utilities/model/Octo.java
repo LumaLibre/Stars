@@ -49,6 +49,12 @@ public class Octo implements Registerable {
         };
 
         CommandMap commandMap = Bukkit.getCommandMap();
+        Command existing = commandMap.getCommand(commandName);
+        if (existing != null) {
+            Stars.getInstance().getLogger().warning("Overriding existing command: " + commandMap);
+            existing.unregister(commandMap);
+            commandMap.getKnownCommands().remove(commandName);
+        }
         commandMap.register(commandName, FALLBACK_PREFIX, this.registeredCommand);
     }
 

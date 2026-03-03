@@ -37,8 +37,23 @@ public class Passthrough implements Registerable {
         }
 
         CommandMap commandMap = Bukkit.getCommandMap();
+
         for (String alias : this.aliases) {
-            commandMap.register(alias, FALLBACK_PREFIX, this.command);
+
+            String fallback;
+            if (alias.contains(":")) {
+                fallback = alias.split(":")[0];
+            } else {
+                fallback = FALLBACK_PREFIX;
+            }
+
+            Command existing = commandMap.getCommand(alias);
+            if (existing != null) {
+                Stars.getInstance().getLogger().warning("Overriding existing command: " + alias);
+                existing.unregister(commandMap);
+                commandMap.getKnownCommands().remove(alias);
+            }
+            commandMap.register(alias, fallback, this.command);
         }
     }
 
@@ -47,6 +62,7 @@ public class Passthrough implements Registerable {
         if (this.command == null) {
             return;
         }
+        // TODO
         CommandMap commandMap = Bukkit.getCommandMap();
         var knownCommands = commandMap.getKnownCommands();
         for (String alias : this.aliases) {
