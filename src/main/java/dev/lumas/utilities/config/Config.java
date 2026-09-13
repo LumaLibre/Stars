@@ -1,5 +1,6 @@
 package dev.lumas.utilities.config;
 
+import dev.lumas.utilities.model.okaeri.OkaeriLimiter;
 import dev.lumas.utilities.model.okaeri.OkaeriOcto;
 import dev.lumas.utilities.model.okaeri.OkaeriPassthrough;
 import dev.lumas.utilities.model.okaeri.OkaeriScreen;
@@ -26,7 +27,14 @@ public class Config extends OkaeriConfig {
 
     @Comment({
             "A screen applies a mask onto a specific command and filters out",
-            "any characters that aren't in the allowedChars string."
+            "any characters that aren't in the allowedChars string, as well as",
+            "any blockedSequences. Players with stars.bypass-screen are not screened."
     })
     private List<OkaeriScreen> screen = List.of(new OkaeriScreen());
+
+    @Comment({
+            "A limiter caps the length of a command's text (excluding color codes)",
+            "whenever one of its triggers is present."
+    })
+    private List<OkaeriLimiter> limiter = List.of(new OkaeriLimiter());
 }
