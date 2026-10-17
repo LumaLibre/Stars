@@ -39,11 +39,10 @@ public class Limiter {
 
     public boolean exceedsLimit(String inputCommand) {
         String[] parts = inputCommand.trim().split(" +");
-        // Skip the command label and the ignored arguments
-        int start = 1 + Math.max(0, this.ignoredArgs);
-        if (parts.length <= start) {
+        if (parts.length < 2) {
             return false;
         }
+        int start = Math.min(1 + Math.max(0, this.ignoredArgs), parts.length - 1);
 
         String text = String.join(" ", Arrays.copyOfRange(parts, start, parts.length));
         if (!containsTrigger(text)) {

@@ -1,5 +1,6 @@
 package dev.lumas.utilities.config;
 
+import dev.lumas.utilities.model.okaeri.OkaeriIntersect;
 import dev.lumas.utilities.model.okaeri.OkaeriLimiter;
 import dev.lumas.utilities.model.okaeri.OkaeriOcto;
 import dev.lumas.utilities.model.okaeri.OkaeriPassthrough;
@@ -37,4 +38,12 @@ public class Config extends OkaeriConfig {
             "whenever one of its triggers is present."
     })
     private List<OkaeriLimiter> limiter = List.of(new OkaeriLimiter());
+
+    @Comment({
+            "An intersect takes over a command name that more than one plugin",
+            "provides and forwards execution and tab completion to a single",
+            "candidate. A player with stars.prefer.<section> gets that section's",
+            "command; without any of those permissions they get the last candidate."
+    })
+    private List<OkaeriIntersect> intersect = List.of(new OkaeriIntersect());
 }

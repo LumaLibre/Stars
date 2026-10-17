@@ -12,7 +12,7 @@ public class OkaeriLimiter extends OkaeriConfig implements OkaeriConvertable<Lim
             "nick", "enick", "nickname", "enickname",
             "essentials:nick", "essentials:enick", "essentials:nickname", "essentials:enickname"
     );
-    @Comment("Number of arguments after the command label that aren't counted")
+    @Comment("Number of arguments after the command label that aren't counted, last argument is always counted")
     private int ignoredArgs = 1;
     @Comment("The limit only applies when one of these sequences is present (case-insensitive)")
     private List<String> triggers = List.of("&l", "<bold>", "<b>");

@@ -75,6 +75,9 @@ public final class ModelManager<K> {
         for (var limiter : config.getLimiter()) {
             newInst.add(limiter.convert());
         }
+        for (var intersect : config.getIntersect()) {
+            newInst.add(intersect.convert());
+        }
         return newInst;
     }
 
