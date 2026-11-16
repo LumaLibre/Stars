@@ -8,14 +8,14 @@ import dev.lumas.utilities.model.Screen;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class ModelManager<K> {
 
     public static ModelManager<?> INSTANCE = create();
 
-    private final Set<K> models = ConcurrentHashMap.newKeySet();
+    private final List<K> models = new CopyOnWriteArrayList<>();
 
 
     public void add(K model) {

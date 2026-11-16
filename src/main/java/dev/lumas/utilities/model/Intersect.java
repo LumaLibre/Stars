@@ -57,6 +57,8 @@ public class Intersect implements Registerable {
                 Candidate candidate = Intersect.this.select(sender);
                 Command target = candidate == null ? null : candidate.resolve();
                 if (target == null) {
+                    sender.sendMessage("/" + Intersect.this.commandName + " has no available command: "
+                            + Intersect.this.describeUnresolved());
                     return true;
                 }
                 return target.execute(sender, candidate.label(), args);
@@ -78,6 +80,14 @@ public class Intersect implements Registerable {
             }
         };
 
+        for (Candidate candidate : this.candidates) {
+            if (candidate.resolve() == null) {
+                Stars.getInstance().getLogger().warning("Intersect '" + this.commandName + "': section '"
+                        + candidate.section() + "' points at '" + candidate.commandName()
+                        + "', which is not a registered command.");
+            }
+        }
+
         CommandMap commandMap = Bukkit.getCommandMap();
         // Only the unprefixed label is taken over. The candidates stay registered
         // under their own namespaces, which is what the forwarding resolves.
@@ -86,6 +96,20 @@ public class Intersect implements Registerable {
             commandMap.getKnownCommands().remove(this.commandName);
         }
         commandMap.register(this.commandName, FALLBACK_PREFIX, this.registeredCommand);
+    }
+
+    private String describeUnresolved() {
+        if (this.candidates.isEmpty()) {
+            return "no candidates configured";
+        }
+        StringBuilder builder = new StringBuilder();
+        for (Candidate candidate : this.candidates) {
+            if (!builder.isEmpty()) {
+                builder.append(", ");
+            }
+            builder.append(candidate.commandName()).append(" is not registered");
+        }
+        return builder.toString();
     }
 
     @Override
